@@ -1,5 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import '../assets/Login.css';
+import { tokenThunk } from '../redux/actions';
+import { fetchToken } from '../services/triviaAPI';
 
 class Login extends Component {
   constructor() {
@@ -9,6 +13,13 @@ class Login extends Component {
       name: '',
     };
   }
+
+    handleLogin = async () => {
+      const { saveToken, history } = this.props;
+      const userToken = await fetchToken();
+      saveToken(userToken);
+      return history.push('/quiz-game');
+    }
 
     handleInputText = ({ target }) => {
       const { name, value } = target;
@@ -55,6 +66,7 @@ class Login extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ !validation }
+            onClick={ this.handleLogin }
           >
             Play
           </button>
@@ -63,4 +75,13 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveToken: (user) => dispatch(tokenThunk(user)),
+});
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  saveToken: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
