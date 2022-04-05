@@ -14,6 +14,11 @@ class Login extends Component {
     };
   }
 
+  handleSettings = () => {
+    const { history } = this.props;
+    return history.push('/settings');
+  }
+
     handleLogin = async () => {
       const { saveToken, history } = this.props;
       const userToken = await fetchToken();
@@ -39,38 +44,47 @@ class Login extends Component {
       const validation = nameOk && emailOk;
 
       return (
-        <form className="login-form">
-          <label htmlFor="name-input">
-            Nome:
-            <input
-              type="text"
-              id="name-input"
-              data-testid="input-player-name"
-              name="name"
-              value={ name }
-              onChange={ this.handleInputText }
-            />
-          </label>
-          <label htmlFor="login-input">
-            E-mail:
-            <input
-              type="text"
-              id="login-input"
-              data-testid="input-gravatar-email"
-              name="email"
-              value={ email }
-              onChange={ this.handleInputText }
-            />
-          </label>
+        <div>
+          <form className="login-form">
+            <label htmlFor="name-input">
+              Nome:
+              <input
+                type="text"
+                id="name-input"
+                data-testid="input-player-name"
+                name="name"
+                value={ name }
+                onChange={ this.handleInputText }
+              />
+            </label>
+            <label htmlFor="login-input">
+              E-mail:
+              <input
+                type="text"
+                id="login-input"
+                data-testid="input-gravatar-email"
+                name="email"
+                value={ email }
+                onChange={ this.handleInputText }
+              />
+            </label>
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ !validation }
+              onClick={ this.handleLogin }
+            >
+              Play
+            </button>
+          </form>
           <button
             type="button"
-            data-testid="btn-play"
-            disabled={ !validation }
-            onClick={ this.handleLogin }
+            onClick={ this.handleSettings }
+            data-testid="btn-settings"
           >
-            Play
+            Configurações
           </button>
-        </form>
+        </div>
       );
     }
 }
@@ -80,8 +94,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
-  saveToken: PropTypes.func.isRequired,
-};
+  history: PropTypes.objectOf(PropTypes.any),
+  saveToken: PropTypes.func,
+}.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);
