@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../assets/Login.css';
-import { tokenThunk } from '../redux/actions';
+import { createUserPlayer, tokenThunk } from '../redux/actions';
+import fetchGravatar from '../services/gravatarAPI';
 import { fetchToken } from '../services/triviaAPI';
 
 class Login extends Component {
@@ -20,8 +21,10 @@ class Login extends Component {
   }
 
     handleLogin = async () => {
-      const { saveToken, history } = this.props;
+      const { saveToken, history, saveUserData } = this.props;
+      saveUserData(this.state);
       const userToken = await fetchToken();
+      await fetchGravatar();
       saveToken(userToken);
       return history.push('/quiz-game');
     }
@@ -90,7 +93,8 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  saveToken: (user) => dispatch(tokenThunk(user)),
+  saveToken: () => dispatch(tokenThunk()),
+  saveUserData: (userData) => dispatch(createUserPlayer(userData)),
 });
 
 Login.propTypes = {

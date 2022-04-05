@@ -1,8 +1,11 @@
 import { fetchQuiz, fetchToken } from '../../services/triviaAPI';
-
+// type constantes
 export const RECEIVE_TOKEN_SUCCESS = 'RECEIVE_TOKEN_SUCCESS';
 export const RECEIVE_TOKEN_FAILURE = 'RECEIVE_TOKEN_FAILURE';
 
+export const CREATE_PLAYER = 'CREATE_PLAYER';
+
+// token actions
 export const receiveTokenSuccess = (token) => ({
   type: RECEIVE_TOKEN_SUCCESS,
   token,
@@ -19,10 +22,18 @@ export const tokenThunk = () => (
     try {
       dispatch(receiveTokenSuccess(tokenObj));
       const state = getState(tokenObj);
-      console.log(tokenObj);
       await fetchQuiz(state);
     } catch (error) {
       dispatch(receiveTokenFailure(error));
     }
   }
 );
+// player actions
+
+export const createUserPlayer = ({ name, assertions, score, email }) => ({
+  type: CREATE_PLAYER,
+  name,
+  assertions,
+  score,
+  email,
+});
