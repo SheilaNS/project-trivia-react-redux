@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Question from '../components/Question';
 
 class Quiz extends Component {
   render() {
@@ -8,6 +10,8 @@ class Quiz extends Component {
       <div>
         <Header />
         Quiz
+        map
+        <Question />
       </div>
     );
   }
@@ -17,4 +21,4 @@ Quiz.propTypes = {
   history: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-export default Quiz;
+export default connect()(Quiz);

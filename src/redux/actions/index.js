@@ -1,9 +1,15 @@
 import { fetchQuiz, fetchToken } from '../../services/triviaAPI';
-// type constantes
+
+// token types
 export const RECEIVE_TOKEN_SUCCESS = 'RECEIVE_TOKEN_SUCCESS';
 export const RECEIVE_TOKEN_FAILURE = 'RECEIVE_TOKEN_FAILURE';
 
+// player types
 export const CREATE_PLAYER = 'CREATE_PLAYER';
+
+// quiz types
+export const RECEIVE_QUIZ_SUCCESS = 'RECEIVE_QUIZ_SUCCESS';
+export const RECEIVE_QUIZ_FAILURE = 'RECEIVE_QUIZ_FAILURE';
 
 // token actions
 export const receiveTokenSuccess = (token) => ({
@@ -37,3 +43,35 @@ export const createUserPlayer = ({ name, assertions, score, email }) => ({
   score,
   email,
 });
+
+// quiz actions
+
+export const receiveQuizSuccess = (quiz) => ({
+  type: RECEIVE_QUIZ_SUCCESS,
+  quiz,
+});
+
+export const receiveQuizFailure = (quiz) => ({
+  type: RECEIVE_QUIZ_FAILURE,
+  quiz,
+});
+
+export const quizThunk = (tokenPlayer) => (
+  async (dispatch, getState) => {
+    const quizObj = await fetchQuiz(tokenPlayer);
+    const failureCode = 3;
+    try {
+      dispatch(receiveQuizSuccess(quizObj));
+      const state = getState(quizObj);
+      if (state.respose_code === failureCode) {
+        try {
+          dispatch(receiveQuizFailure(quizObj));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

@@ -10,7 +10,7 @@ class Header extends Component {
     return (
       <div>
         <p data-testid="header-player-name">{`Jogador: ${playerName}`}</p>
-        <p data-testid="header-score">{ `Potuação: ${playerScore}` }</p>
+        <p data-testid="header-score">{ `Pontuação: ${playerScore}` }</p>
         <img
           data-testid="header-profile-picture"
           src={ gravatarHash }
