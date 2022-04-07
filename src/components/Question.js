@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { quizThunk } from '../redux/actions';
 import '../assets/Question.css';
+import { quizThunk } from '../redux/actions';
 
 class Question extends Component {
     state = {
@@ -10,6 +10,8 @@ class Question extends Component {
       allAnswers: [],
       correctAnswer: '',
       incorrectAnswers: [],
+      wrongClass: {},
+      correctClass: {},
     }
 
     componentDidMount= async () => {
@@ -17,12 +19,19 @@ class Question extends Component {
       await getQuiz(tokenPlayer);
       const { quizResults } = this.props;
       const findIndex = quizResults.find((_question, index) => index === 0);
+      const answers = [...findIndex.incorrect_answers, findIndex.correct_answer];
       this.setState({
         questionRender: findIndex,
-        allAnswers: [...findIndex.incorrect_answers, findIndex.correct_answer],
+        allAnswers: this.shuffleArray(answers),
         correctAnswer: findIndex.correct_answer,
         incorrectAnswers: [...findIndex.incorrect_answers],
       });
+    }
+
+    handleClickAnswer = () => {
+      this.setState({
+        correctClass: { border: '3px solid rgb(6, 240, 15)' },
+        wrongClass: { border: '3px  solid red' } });
     }
 
     // Metodo para ramdomizar array:
@@ -38,14 +47,18 @@ class Question extends Component {
     }
 
     render() {
-      const { questionRender, allAnswers, correctAnswer, incorrectAnswers } = this.state;
-      const renderAnswers = this.shuffleArray(allAnswers);
+      const { questionRender,
+        allAnswers,
+        correctAnswer,
+        incorrectAnswers,
+        wrongClass,
+        correctClass } = this.state;
       return (
         <div>
           {!questionRender
             ? (
               <div className="loading">
-                <h1>Caregando...</h1>
+                <h1>Caregando... </h1>
               </div>
             )
             : (
@@ -82,28 +95,30 @@ class Question extends Component {
                     Alternativas:
                   </p>
                   <div className="button-container" data-testid="answer-options">
-                    {renderAnswers.map((answer, index) => (
+                    {allAnswers.map((answer, index) => (
                       answer === correctAnswer
                         ? (
                           <button
-                            className="correct-one"
+                            style={ correctClass }
                             key={ index }
                             type="button"
                             value={ correctAnswer }
                             data-testid="correct-answer"
+                            onClick={ this.handleClickAnswer }
                           >
                             {correctAnswer}
                           </button>
                         )
                         : (
                           <button
-                            className="wrong-one"
+                            style={ wrongClass }
                             type="button"
-                            value={ incorrectAnswers }
+                            value={ incorrectAnswers[index] }
                             data-testid={ `wrong-answer-${index}` }
                             key={ index }
+                            onClick={ this.handleClickAnswer }
                           >
-                            {incorrectAnswers}
+                            {incorrectAnswers[index]}
                           </button>
                         )
                     ))}
