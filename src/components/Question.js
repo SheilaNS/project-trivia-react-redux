@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { quizThunk } from '../redux/actions';
+import '../assets/Question.css';
 
 class Question extends Component {
     state = {
@@ -42,49 +43,71 @@ class Question extends Component {
       return (
         <div>
           {!questionRender
-            ? <div>Caregando...</div>
+            ? (
+              <div className="loading">
+                <h1>Caregando...</h1>
+              </div>
+            )
             : (
-              <div>
+              <div className="question-container">
                 <p
+                  className="question-category"
                   data-testid="question-category"
                 >
-                  {questionRender.category}
+                  Categoria:
+                  <span>{questionRender.category}</span>
                 </p>
-                <p>{questionRender.type}</p>
-                <p>{questionRender.difficulty}</p>
                 <p
-                  data-testid="question-text"
+                  className="question-type"
                 >
-                  Question:
-                  {questionRender.question}
+                  Tipo:
+                  <span>{questionRender.type}</span>
+                </p>
+                <p
+                  className="question-difficulty"
+                >
+                  Dificuldade:
+                  <span>{questionRender.difficulty}</span>
+                </p>
+                <p
+                  className="question-question"
+                >
+                  Pergunta:
+                  <span data-testid="question-text">{questionRender.question}</span>
                 </p>
                 <div
-                  data-testid="answer-options"
+                  className="options-container"
                 >
-                  Alternativas
-                  {renderAnswers.map((answer, index) => (
-                    answer === correctAnswer
-                      ? (
-                        <button
-                          key={ index }
-                          type="button"
-                          value={ correctAnswer }
-                          data-testid="correct-answer"
-                        >
-                          {correctAnswer}
-                        </button>
-                      )
-                      : (
-                        <button
-                          type="button"
-                          value={ incorrectAnswers }
-                          data-testid={ `wrong-answer-${index}` }
-                          key={ index }
-                        >
-                          {incorrectAnswers}
-                        </button>
-                      )
-                  ))}
+                  <p className="options-title">
+                    Alternativas:
+                  </p>
+                  <div className="button-container" data-testid="answer-options">
+                    {renderAnswers.map((answer, index) => (
+                      answer === correctAnswer
+                        ? (
+                          <button
+                            className="correct-one"
+                            key={ index }
+                            type="button"
+                            value={ correctAnswer }
+                            data-testid="correct-answer"
+                          >
+                            {correctAnswer}
+                          </button>
+                        )
+                        : (
+                          <button
+                            className="wrong-one"
+                            type="button"
+                            value={ incorrectAnswers }
+                            data-testid={ `wrong-answer-${index}` }
+                            key={ index }
+                          >
+                            {incorrectAnswers}
+                          </button>
+                        )
+                    ))}
+                  </div>
                 </div>
 
               </div>

@@ -5,11 +5,30 @@
   width: 500px;
 }
 
-.login-form > button {
+.login-form > button, .setting-btn {
+  background-color: aquamarine;
+  border-radius: 5px;
+  border-style: none;
+  font-size: 1.1rem;
+  height: 30px;
   margin: 5px auto;
-  width: 50px;
+  padding: 0 10px;
 }
 
 .login-form > label {
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+  height: 40px;
+  justify-content: center;
   margin: 5px;
+}
+
+label > input {
+  background-color: lightgrey;
+  border-radius: 5px;
+  border-style: none;
+  font-size: 1rem;
+  margin-left: 10px;
+  padding: 5px 0 3px 8px;
 }

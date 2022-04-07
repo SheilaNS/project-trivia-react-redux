@@ -9,8 +9,6 @@ class Quiz extends Component {
     return (
       <div>
         <Header />
-        Quiz
-        map
         <Question />
       </div>
     );
