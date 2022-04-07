@@ -58,7 +58,7 @@ class Question extends Component {
           {!questionRender
             ? (
               <div className="loading">
-                <h1>Caregando...</h1>
+                <h1>Caregando... </h1>
               </div>
             )
             : (
