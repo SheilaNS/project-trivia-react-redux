@@ -128,12 +128,12 @@ class Question extends Component {
                               style={ correctClass }
                               key={ index }
                               type="button"
-                              value={ correctAnswer }
+                              value={ answer }
                               data-testid="correct-answer"
                               onClick={ this.handleClickAnswer }
                               disabled={ !next }
                             >
-                              {correctAnswer}
+                              {answer}
                             </button>
                           )
                           : (
@@ -143,13 +143,13 @@ class Question extends Component {
                               <button
                                 style={ wrongClass }
                                 type="button"
-                                value={ incorrectAnswers[incorrectAnswers.length - 1] }
-                                data-testid={ `wrong-answer-${index}` }
+                                value={ answer }
+                                data-testid={ `wrong-answer-${incorrectAnswers.length}` }
                                 key={ index }
                                 onClick={ this.handleClickAnswer }
                                 disabled={ !next }
                               >
-                                {incorrectAnswers[index]}
+                                {answer}
                               </button>
                             </>
 
