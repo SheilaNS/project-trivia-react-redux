@@ -6,6 +6,7 @@ export const RECEIVE_TOKEN_FAILURE = 'RECEIVE_TOKEN_FAILURE';
 
 // player types
 export const CREATE_PLAYER = 'CREATE_PLAYER';
+export const SAVE_PLAYER_SCORE = 'SAVE_PLAYER_SCORE';
 
 // quiz types
 export const RECEIVE_QUIZ_SUCCESS = 'RECEIVE_QUIZ_SUCCESS';
@@ -42,6 +43,11 @@ export const createUserPlayer = ({ name, assertions, score, email }) => ({
   assertions,
   score,
   email,
+});
+
+export const savePlayerScore = (score) => ({
+  type: SAVE_PLAYER_SCORE,
+  points: score,
 });
 
 // quiz actions
