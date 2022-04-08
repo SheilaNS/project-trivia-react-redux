@@ -194,16 +194,15 @@ class Question extends Component {
                   ))}
                   <button
                     className="btn-next"
-                      type="button"
-                      disabled={ next }
-                      data-testid="btn-next"
-                      style={ display }
+                    type="button"
+                    disabled={ next }
+                    data-testid="btn-next"
+                    style={ display }
                   >
                     Next
                   </button>
                 </div>
               </div>
-
             </div>
           )}
       </div>
