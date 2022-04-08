@@ -12,6 +12,8 @@ class Question extends Component {
       incorrectAnswers: [],
       wrongClass: {},
       correctClass: {},
+      contador: 30,
+      next: true,
     }
 
     componentDidMount= async () => {
@@ -26,6 +28,22 @@ class Question extends Component {
         correctAnswer: findIndex.correct_answer,
         incorrectAnswers: [...findIndex.incorrect_answers],
       });
+      this.handleTimeout();
+    }
+
+    handleTimeout = () => {
+      const trintaSec = 30000;
+      const oneSec = 1000;
+      const interval = setInterval(() => {
+        this.setState((previousState) => ({
+          contador: previousState.contador - 1,
+        }));
+      }, oneSec);
+      setTimeout(() => {
+        this.setState({ next: false });
+        this.handleClickAnswer();
+        clearInterval(interval);
+      }, trintaSec);
     }
 
     handleClickAnswer = () => {
@@ -52,7 +70,10 @@ class Question extends Component {
         correctAnswer,
         incorrectAnswers,
         wrongClass,
-        correctClass } = this.state;
+        correctClass,
+        contador,
+        next } = this.state;
+      console.log(allAnswers);
       return (
         <div>
           {!questionRender
@@ -63,6 +84,9 @@ class Question extends Component {
             )
             : (
               <div className="question-container">
+                <span>
+                  {contador}
+                </span>
                 <p
                   className="question-category"
                   data-testid="question-category"
@@ -95,33 +119,45 @@ class Question extends Component {
                     Alternativas:
                   </p>
                   <div className="button-container" data-testid="answer-options">
-                    {allAnswers.map((answer, index) => (
-                      answer === correctAnswer
-                        ? (
-                          <button
-                            style={ correctClass }
-                            key={ index }
-                            type="button"
-                            value={ correctAnswer }
-                            data-testid="correct-answer"
-                            onClick={ this.handleClickAnswer }
-                          >
-                            {correctAnswer}
-                          </button>
-                        )
-                        : (
-                          <button
-                            style={ wrongClass }
-                            type="button"
-                            value={ incorrectAnswers[index] }
-                            data-testid={ `wrong-answer-${index}` }
-                            key={ index }
-                            onClick={ this.handleClickAnswer }
-                          >
-                            {incorrectAnswers[index]}
-                          </button>
-                        )
-                    ))}
+                    {allAnswers.map((answer, index) => {
+                      console.log(answer);
+                      return (
+                        answer === correctAnswer
+                          ? (
+                            <button
+                              style={ correctClass }
+                              key={ index }
+                              type="button"
+                              value={ answer }
+                              data-testid="correct-answer"
+                              onClick={ this.handleClickAnswer }
+                              disabled={ !next }
+                            >
+                              {answer}
+                            </button>
+                          )
+                          : (
+                            <button
+                              style={ wrongClass }
+                              type="button"
+                              value={ answer }
+                              data-testid={ `wrong-answer-${incorrectAnswers.length}` }
+                              key={ index }
+                              onClick={ this.handleClickAnswer }
+                              disabled={ !next }
+                            >
+                              {answer}
+                            </button>
+                          )
+                      );
+                    })}
+                    <button
+                      type="button"
+                      disabled={ next }
+                    >
+                      Next
+
+                    </button>
                   </div>
                 </div>
 
