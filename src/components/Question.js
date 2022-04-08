@@ -14,6 +14,7 @@ class Question extends Component {
       correctClass: {},
       contador: 30,
       next: true,
+      display: { display: 'none' },
     }
 
     componentDidMount= async () => {
@@ -49,7 +50,10 @@ class Question extends Component {
     handleClickAnswer = () => {
       this.setState({
         correctClass: { border: '3px solid rgb(6, 240, 15)' },
-        wrongClass: { border: '3px  solid red' } });
+        wrongClass: { border: '3px  solid red' },
+        display: { display: '' },
+        next: false,
+      });
     }
 
     // Metodo para ramdomizar array:
@@ -72,14 +76,17 @@ class Question extends Component {
         wrongClass,
         correctClass,
         contador,
-        next } = this.state;
+        next,
+        display,
+      } = this.state;
+
       console.log(allAnswers);
       return (
         <div>
           {!questionRender
             ? (
               <div className="loading">
-                <h1>Caregando... </h1>
+                <h1>Caregando...</h1>
               </div>
             )
             : (
@@ -152,8 +159,11 @@ class Question extends Component {
                       );
                     })}
                     <button
+                      className="btn-next"
                       type="button"
                       disabled={ next }
+                      data-testid="btn-next"
+                      style={ display }
                     >
                       Next
 
