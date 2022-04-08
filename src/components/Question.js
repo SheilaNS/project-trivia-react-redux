@@ -14,6 +14,7 @@ class Question extends Component {
     correctClass: {},
     contador: 30,
     next: true,
+    display: { display: 'none' },
     // totalPoints: 0,
   }
 
@@ -68,6 +69,7 @@ class Question extends Component {
     this.setState({
       correctClass: { border: '3px solid rgb(6, 240, 15)' },
       wrongClass: { border: '3px  solid red' },
+      display: { display: '' },
       next: false,
     });
   }
@@ -88,6 +90,8 @@ class Question extends Component {
     this.handleAnswers();
     this.setState({
       contador: 0,
+      display: { display: '' },
+      next: false,
     });
   };
 
@@ -112,6 +116,7 @@ class Question extends Component {
       correctClass,
       contador,
       next,
+      display,
     } = this.state;
     return (
       <div>
@@ -188,11 +193,13 @@ class Question extends Component {
                       )
                   ))}
                   <button
-                    type="button"
-                    disabled={ next }
+                    className="btn-next"
+                      type="button"
+                      disabled={ next }
+                      data-testid="btn-next"
+                      style={ display }
                   >
                     Next
-
                   </button>
                 </div>
               </div>
