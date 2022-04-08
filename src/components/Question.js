@@ -137,22 +137,17 @@ class Question extends Component {
                             </button>
                           )
                           : (
-                            <>
-                              {' '}
-                              {console.log(incorrectAnswers[index])}
-                              <button
-                                style={ wrongClass }
-                                type="button"
-                                value={ answer }
-                                data-testid={ `wrong-answer-${incorrectAnswers.length}` }
-                                key={ index }
-                                onClick={ this.handleClickAnswer }
-                                disabled={ !next }
-                              >
-                                {answer}
-                              </button>
-                            </>
-
+                            <button
+                              style={ wrongClass }
+                              type="button"
+                              value={ answer }
+                              data-testid={ `wrong-answer-${incorrectAnswers.length}` }
+                              key={ index }
+                              onClick={ this.handleClickAnswer }
+                              disabled={ !next }
+                            >
+                              {answer}
+                            </button>
                           )
                       );
                     })}
