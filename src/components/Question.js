@@ -79,6 +79,7 @@ class Question extends Component {
         next,
         display,
       } = this.state;
+
       console.log(allAnswers);
       return (
         <div>
