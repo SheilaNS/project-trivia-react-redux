@@ -2,50 +2,34 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../assets/Question.css';
-import { quizThunk, savePlayerScore } from '../redux/actions';
+import { savePlayerScore } from '../redux/actions';
 
 class Question extends Component {
-  state = {
-    questionRender: {},
-    allAnswers: [],
-    correctAnswer: '',
-    incorrectAnswers: [],
-    wrongClass: {},
-    correctClass: {},
-    contador: 30,
-    next: true,
-    display: { display: 'none' },
-    // totalPoints: 0,
+  constructor(props) {
+    super(props);
+    this.state = {
+      allAnswers: [],
+      correctAnswer: '',
+      incorrectAnswers: [],
+      wrongClass: {},
+      correctClass: {},
+      contador: 30,
+      next: true,
+      display: { display: 'none' },
+      questionIndex: 0,
+      // totalPoints: 0,
+    };
   }
 
-  componentDidMount= async () => {
-    const { getQuiz, tokenPlayer } = this.props;
-    await getQuiz(tokenPlayer);
-    const { quizResults } = this.props;
-    const findIndex = quizResults.find((_question, index) => index === 0);
-    const answers = [...findIndex.incorrect_answers, findIndex.correct_answer];
+  componentDidMount = () => {
+    const { question } = this.props;
+    console.log(question);
+    const answers = [question.incorrect_answers, question.correct_answer];
     this.setState({
-      questionRender: findIndex,
       allAnswers: this.shuffleArray(answers),
-      correctAnswer: findIndex.correct_answer,
-      incorrectAnswers: [...findIndex.incorrect_answers],
+      correctAnswer: question.correct_answer,
+      incorrectAnswers: question.incorrect_answers,
     });
-    this.pageInterval();
-  }
-
-  pageInterval = () => {
-    const oneSec = 1000;
-    this.interval = setInterval(() => {
-      const { contador } = this.state;
-      if (contador > 0) {
-        this.setState({
-          contador: contador - 1,
-        });
-      } else {
-        this.handleAnswers();
-        clearInterval(this.interval);
-      }
-    }, oneSec);
   }
 
   handleDificulty = (question) => {
@@ -65,15 +49,6 @@ class Question extends Component {
     return questionPoint;
   }
 
-  handleAnswers = () => {
-    this.setState({
-      correctClass: { border: '3px solid rgb(6, 240, 15)' },
-      wrongClass: { border: '3px  solid red' },
-      display: { display: '' },
-      next: false,
-    });
-  }
-
   handlePoints = ({ value }) => {
     const { contador, correctAnswer, questionRender } = this.state;
     const { saveScore } = this.props;
@@ -86,14 +61,21 @@ class Question extends Component {
   }
 
   handleClickAnswer = ({ target }) => {
+    const { handleAnswers } = this.props;
     this.handlePoints(target);
-    this.handleAnswers();
+    handleAnswers();
     this.setState({
       contador: 0,
       display: { display: '' },
       next: false,
     });
   };
+
+  handleNextQuestion = () => {
+    this.setState((previousState) => ({
+      questionIndex: previousState.questionIndex + 1,
+    }));
+  }
 
   // Metodo para ramdomizar array:
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -108,19 +90,20 @@ class Question extends Component {
   }
 
   render() {
-    const { questionRender,
+    const {
       allAnswers,
       correctAnswer,
       incorrectAnswers,
       wrongClass,
       correctClass,
-      contador,
       next,
       display,
     } = this.state;
+    const { question } = this.props;
+    console.log(allAnswers);
     return (
       <div>
-        {!questionRender
+        {!question
           ? (
             <div className="loading">
               <h1>Caregando... </h1>
@@ -128,33 +111,30 @@ class Question extends Component {
           )
           : (
             <div className="question-container">
-              <span>
-                {contador}
-              </span>
               <p
                 className="question-category"
                 data-testid="question-category"
               >
                 Categoria:
-                <span>{questionRender.category}</span>
+                <span>{question.category}</span>
               </p>
               <p
                 className="question-type"
               >
                 Tipo:
-                <span>{questionRender.type}</span>
+                <span>{question.type}</span>
               </p>
               <p
                 className="question-difficulty"
               >
                 Dificuldade:
-                <span>{questionRender.difficulty}</span>
+                <span>{question.difficulty}</span>
               </p>
               <p
                 className="question-question"
               >
                 Pergunta:
-                <span data-testid="question-text">{questionRender.question}</span>
+                <span data-testid="question-text">{question.question}</span>
               </p>
               <div
                 className="options-container"
@@ -198,6 +178,7 @@ class Question extends Component {
                     disabled={ next }
                     data-testid="btn-next"
                     style={ display }
+                    onClick={ this.handleNextQuestion }
                   >
                     Next
                   </button>
@@ -211,18 +192,11 @@ class Question extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuiz: (tokenPlayer) => dispatch(quizThunk(tokenPlayer)),
   saveScore: (score) => dispatch(savePlayerScore(score)),
 });
 
-const mapStateToProps = (state) => ({
-  quizResults: state.quiz.results,
-  tokenPlayer: state.token,
-  responseCode: state.quiz.response_code,
-});
-
 Question.propTypes = {
-  quizResults: PropTypes.arrayOf(PropTypes.any),
+  question: PropTypes.objectOf(PropTypes.any),
 }.isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Question);
+export default connect(null, mapDispatchToProps)(Question);
