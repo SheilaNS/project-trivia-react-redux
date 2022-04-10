@@ -1,34 +1,33 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import logo from '../images/trivia.png';
 import fetchGravatar from '../services/gravatarAPI';
 import '../assets/Header.css';
 
 class Header extends Component {
   render() {
     const { gravatarURL, playerName, playerScore } = this.props;
-    const gravatarHash = fetchGravatar(gravatarURL);
     return (
       <header className="header-container">
-        <div className="player-data">
+        <img className="logo-image" src={ logo } alt="trivia logo" />
+        <div className="player-header-info">
           <img
-            className="player-avatar"
+            className="player-image"
             data-testid="header-profile-picture"
-            src={ gravatarHash }
-            alt={ gravatarURL }
+            src={ fetchGravatar(gravatarURL) }
+            alt="player avatar"
           />
-          <div className="player-info">
-            <p data-testid="header-player-name">
-              Jogador:
-              <span>{playerName}</span>
+          <div className="header-player-data">
+            <p className="header-player-name" data-testid="header-player-name">
+              {playerName}
             </p>
-            <p data-testid="header-score">
+            <p className="header-score" data-testid="header-score">
               Pontuação:
               <span>{playerScore}</span>
             </p>
           </div>
         </div>
-        <h1 className="project-title">TRIVIA REACT-REDUX</h1>
       </header>
     );
   }

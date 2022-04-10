@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import '../assets/Login.css';
-import { createUserPlayer, tokenThunk } from '../redux/actions';
+import tokenThunk from '../redux/actions/token';
 import fetchGravatar from '../services/gravatarAPI';
 import { fetchToken } from '../services/triviaAPI';
+import { createUserPlayer } from '../redux/actions/player';
 
 class Login extends Component {
   constructor() {
@@ -52,29 +53,33 @@ class Login extends Component {
           : (
             <div>
               <form className="login-form">
-                <label htmlFor="name-input">
-                  Nome:
+                <label className="login-label" htmlFor="name-input">
                   <input
+                    className="login-input"
                     type="text"
                     id="name-input"
                     data-testid="input-player-name"
                     name="name"
                     value={ name }
                     onChange={ this.handleInputText }
+                    placeholder="Nome"
                   />
                 </label>
-                <label htmlFor="login-input">
+                <label className="login-label" htmlFor="login-input">
                   E-mail:
                   <input
+                    className="login-input"
                     type="text"
                     id="login-input"
                     data-testid="input-gravatar-email"
                     name="email"
                     value={ email }
                     onChange={ this.handleInputText }
+                    placeholder="E-mail"
                   />
                 </label>
                 <button
+                  className="btn-play"
                   type="button"
                   data-testid="btn-play"
                   disabled={ !validation }
@@ -87,7 +92,7 @@ class Login extends Component {
                 type="button"
                 onClick={ this.handleSettings }
                 data-testid="btn-settings"
-                className="setting-btn"
+                className="btn-settings"
               >
                 Configurações
               </button>
@@ -96,13 +101,13 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-  tokenPlayer: state.token,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   saveToken: () => dispatch(tokenThunk()),
   saveUserData: (userData) => dispatch(createUserPlayer(userData)),
+});
+
+const mapStateToProps = (state) => ({
+  tokenPlayer: state.token,
 });
 
 Login.propTypes = {
