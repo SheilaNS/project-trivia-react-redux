@@ -22,9 +22,9 @@ class Header extends Component {
             <p className="header-player-name" data-testid="header-player-name">
               {playerName}
             </p>
-            <p className="header-score" data-testid="header-score">
+            <p className="header-score">
               Pontuação:
-              <span>{playerScore}</span>
+              <span data-testid="header-score">{playerScore}</span>
             </p>
           </div>
         </div>
