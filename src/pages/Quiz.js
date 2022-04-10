@@ -8,6 +8,8 @@ import Question from '../components/Question';
 import { savePlayerScore } from '../redux/actions/player';
 import quizThunk from '../redux/actions/quiz';
 
+let questionIndex = 0;
+
 class Quiz extends Component {
     state = {
       turnQuestion: {},
@@ -17,15 +19,12 @@ class Quiz extends Component {
       wrongClass: {},
       contador: 30,
       display: { display: 'none' },
-      questionIndex: 0,
       feedback: false,
     };
 
-  getQuestionByIndex = () => {
-    const { questionIndex } = this.state;
+  getQuestionByIndex = (newIndex) => {
     const { quizResults } = this.props;
-    console.log(questionIndex);
-    const question = quizResults.find((_question, index) => index === questionIndex);
+    const question = quizResults.find((_question, index) => index === newIndex);
     this.setState({
       disabled: false,
       display: { display: 'none' },
@@ -38,20 +37,15 @@ class Quiz extends Component {
     });
   }
 
-  updateQuestionIndex = () => {
-    this.setState((prevState) => ({
-      questionIndex: prevState.questionIndex + 1,
-    }));
-    this.getQuestionByIndex();
-  }
-
   handleNextButton = () => {
-    const { questionIndex } = this.state;
     const { quizResults } = this.props;
-    if (questionIndex < quizResults.length) {
-      this.updateQuestionIndex();
+    if (questionIndex < quizResults.length - 1) {
+      clearInterval(this.interval);
+      this.getQuestionByIndex(questionIndex += 1);
+      this.pageInterval();
     } else {
       this.setState({ feedback: true });
+      console.log('feedback');
     }
   }
 
@@ -127,7 +121,7 @@ class Quiz extends Component {
   componentDidMount = async () => {
     const { getQuiz, tokenPlayer } = this.props;
     await getQuiz(tokenPlayer);
-    this.getQuestionByIndex();
+    this.getQuestionByIndex(questionIndex);
     this.pageInterval();
   }
 
@@ -143,34 +137,35 @@ class Quiz extends Component {
       feedback,
     } = this.state;
     return (
-      feedback
-        ? <Redirect to="feedback" />
-        : (
-          <div>
-            <Header />
-            { turnQuestion === {}
-              ? (
-                <div className="loading">
-                  <h1>Caregando... </h1>
-                </div>
-              )
-              : (
-                <>
-                  <Countdown contador={ contador } />
-                  <Question
-                    turnQuestion={ turnQuestion }
-                    // question={ question }
-                    answers={ turnAnswers }
-                    handleClick={ this.handleClickAnswer }
-                    nextQuestion={ this.handleNextButton }
-                    correctClass={ correctClass }
-                    wrongClass={ wrongClass }
-                    disabled={ disabled }
-                    display={ display }
-                  />
-                </>
-              )}
-          </div>)
+      <>
+        {feedback && <Redirect to="feedback" />}
+        <div>
+          <Header />
+          { turnQuestion === {}
+            ? (
+              <div className="loading">
+                <h1>Caregando... </h1>
+              </div>
+            )
+            : (
+              <>
+                <Countdown contador={ contador } />
+                <Question
+                  turnQuestion={ turnQuestion }
+                  // question={ question }
+                  answers={ turnAnswers }
+                  handleClick={ this.handleClickAnswer }
+                  nextQuestion={ this.handleNextButton }
+                  correctClass={ correctClass }
+                  wrongClass={ wrongClass }
+                  disabled={ disabled }
+                  display={ display }
+                />
+              </>
+            )}
+        </div>
+      </>
+
     );
   }
 }
