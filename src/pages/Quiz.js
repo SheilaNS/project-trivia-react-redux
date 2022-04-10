@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import Countdown from '../components/Countdown';
 import Header from '../components/Header';
 import Question from '../components/Question';
-import Countdown from '../components/Countdown';
 import { savePlayerScore } from '../redux/actions/player';
 import quizThunk from '../redux/actions/quiz';
 
@@ -17,21 +18,41 @@ class Quiz extends Component {
       contador: 30,
       display: { display: 'none' },
       questionIndex: 0,
+      feedback: false,
     };
 
-  componentDidMount = async () => {
-    const { getQuiz, tokenPlayer } = this.props;
+  getQuestionByIndex = () => {
     const { questionIndex } = this.state;
-    await getQuiz(tokenPlayer);
     const { quizResults } = this.props;
+    console.log(questionIndex);
     const question = quizResults.find((_question, index) => index === questionIndex);
     this.setState({
-      // question,
+      disabled: false,
+      display: { display: 'none' },
+      correctClass: {},
+      wrongClass: {},
+      contador: 30,
       turnQuestion: question,
       turnAnswers: this.shuffleArray([...question.incorrect_answers,
         question.correct_answer]),
     });
-    this.pageInterval();
+  }
+
+  updateQuestionIndex = () => {
+    this.setState((prevState) => ({
+      questionIndex: prevState.questionIndex + 1,
+    }));
+    this.getQuestionByIndex();
+  }
+
+  handleNextButton = () => {
+    const { questionIndex } = this.state;
+    const { quizResults } = this.props;
+    if (questionIndex < quizResults.length) {
+      this.updateQuestionIndex();
+    } else {
+      this.setState({ feedback: true });
+    }
   }
 
   // Metodo para ramdomizar array:
@@ -50,7 +71,6 @@ class Quiz extends Component {
     this.setState({
       correctClass: { border: '3px solid rgb(6, 240, 15)' },
       wrongClass: { border: '3px  solid red' },
-      // display: { display: '' },
       disabled: true,
     });
   }
@@ -64,7 +84,7 @@ class Quiz extends Component {
           contador: contador - 1,
         });
       } else {
-        this.handleAnswers(); // problema aqui, precisamos criar um array ou objeto com todos os estados para passar para o question e ele utilizar tudo isso. -Gus
+        this.handleAnswers();
         this.setState({
           display: { display: '' },
         });
@@ -104,6 +124,13 @@ class Quiz extends Component {
     });
   };
 
+  componentDidMount = async () => {
+    const { getQuiz, tokenPlayer } = this.props;
+    await getQuiz(tokenPlayer);
+    this.getQuestionByIndex();
+    this.pageInterval();
+  }
+
   render() {
     const {
       turnQuestion,
@@ -113,37 +140,37 @@ class Quiz extends Component {
       disabled,
       contador,
       display,
-      // contador,
-      // question,
-      // correctClass,
-      // wrongClass,
-      // display,
+      feedback,
     } = this.state;
     return (
-      <div>
-        <Header />
-        { turnQuestion === {}
-          ? (
-            <div className="loading">
-              <h1>Caregando... </h1>
-            </div>
-          )
-          : (
-            <>
-              <Countdown contador={ contador } />
-              <Question
-                turnQuestion={ turnQuestion }
-                // question={ question }
-                answers={ turnAnswers }
-                handleClick={ this.handleClickAnswer }
-                correctClass={ correctClass }
-                wrongClass={ wrongClass }
-                disabled={ disabled }
-                display={ display }
-              />
-            </>
-          )}
-      </div>
+      feedback
+        ? <Redirect to="feedback" />
+        : (
+          <div>
+            <Header />
+            { turnQuestion === {}
+              ? (
+                <div className="loading">
+                  <h1>Caregando... </h1>
+                </div>
+              )
+              : (
+                <>
+                  <Countdown contador={ contador } />
+                  <Question
+                    turnQuestion={ turnQuestion }
+                    // question={ question }
+                    answers={ turnAnswers }
+                    handleClick={ this.handleClickAnswer }
+                    nextQuestion={ this.handleNextButton }
+                    correctClass={ correctClass }
+                    wrongClass={ wrongClass }
+                    disabled={ disabled }
+                    display={ display }
+                  />
+                </>
+              )}
+          </div>)
     );
   }
 }

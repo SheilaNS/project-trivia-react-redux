@@ -12,6 +12,7 @@ class Question extends Component {
       wrongClass,
       handleClick,
       display,
+      nextQuestion,
     } = this.props;
 
     return !turnQuestion
@@ -74,6 +75,7 @@ class Question extends Component {
             className="btn-next"
             type="button"
             data-testid="btn-next"
+            onClick={ nextQuestion }
             style={ display }
           >
             Próxima Questão
