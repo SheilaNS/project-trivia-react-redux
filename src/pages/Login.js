@@ -41,9 +41,9 @@ class Login extends Component {
     render() {
       const { email, name } = this.state;
       const { tokenPlayer } = this.props;
-      const validEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
       // Referência da validação do e-mail :
       // regex validação e-mail: https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail
+      const validEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
       const emailOk = validEmail.test(email);
       const nameOk = name.length > 0;
       const validation = nameOk && emailOk;

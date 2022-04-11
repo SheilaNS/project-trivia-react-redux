@@ -95,7 +95,7 @@ class Quiz extends Component {
     if (question.difficulty === 'hard') questionPoint = hard;
     if (question.difficulty === 'medium') questionPoint = medium;
     questionPoint = easy;
-    return questionPoint;
+    return Number(questionPoint);
   }
 
   handlePoints = ({ value }) => {
@@ -105,9 +105,9 @@ class Quiz extends Component {
     const ten = 10;
     let assertions = 0;
     if (value === turnQuestion.correct_answer) {
-      const score = ten + (contador * questionPoint);
+      const score = Number(ten + (contador * questionPoint));
       assertions += 1;
-      saveScore({ score, assertions });
+      saveScore({ score: Number(score), assertions: Number(assertions) });
     }
   }
 
@@ -174,7 +174,6 @@ class Quiz extends Component {
 const mapStateToProps = (state) => ({
   quizResults: state.quiz.allQuestions,
   tokenPlayer: state.token,
-  // responseCode: state.quiz.response_code,
 });
 
 const mapDispatchToProps = (dispatch) => ({
