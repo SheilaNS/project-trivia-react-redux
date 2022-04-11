@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import '../assets/Login.css';
 import { createUserPlayer } from '../redux/actions/player';
-import tokenThunk from '../redux/actions/token';
+import { tokenThunk } from '../redux/actions/token';
 import fetchGravatar from '../services/gravatarAPI';
 import { fetchToken } from '../services/triviaAPI';
+import logo from '../images/trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -50,8 +51,9 @@ class Login extends Component {
       return (
         <>
           {tokenPlayer && <Redirect to="quiz-game" />}
-          <div>
+          <div className="login-container">
             <form className="login-form">
+              <img className="logo-image" src={ logo } alt="trivia logo" />
               <label className="login-label" htmlFor="name-input">
                 <input
                   className="login-input"
@@ -65,7 +67,6 @@ class Login extends Component {
                 />
               </label>
               <label className="login-label" htmlFor="login-input">
-                E-mail:
                 <input
                   className="login-input"
                   type="text"
@@ -77,24 +78,26 @@ class Login extends Component {
                   placeholder="E-mail"
                 />
               </label>
-              <button
-                className="btn-play"
-                type="button"
-                data-testid="btn-play"
-                disabled={ !validation }
-                onClick={ this.handleLogin }
-              >
-                Play
-              </button>
+              <fieldset>
+                <button
+                  className="btn-play"
+                  type="button"
+                  data-testid="btn-play"
+                  disabled={ !validation }
+                  onClick={ this.handleLogin }
+                >
+                  Play
+                </button>
+                <button
+                  type="button"
+                  onClick={ this.handleSettings }
+                  data-testid="btn-settings"
+                  className="btn-settings"
+                >
+                  Configurações
+                </button>
+              </fieldset>
             </form>
-            <button
-              type="button"
-              onClick={ this.handleSettings }
-              data-testid="btn-settings"
-              className="btn-settings"
-            >
-              Configurações
-            </button>
           </div>
 
         </>

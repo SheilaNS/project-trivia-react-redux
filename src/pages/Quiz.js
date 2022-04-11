@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { setCircleDasharray, setRemainingPathColor } from '../assets/TimerFunction';
 import Countdown from '../components/Countdown';
 import Header from '../components/Header';
 import Question from '../components/Question';
@@ -45,7 +46,6 @@ class Quiz extends Component {
       this.pageInterval();
     } else {
       this.setState({ feedback: true });
-      console.log('feedback');
     }
   }
 
@@ -77,6 +77,8 @@ class Quiz extends Component {
         this.setState({
           contador: contador - 1,
         });
+        setCircleDasharray();
+        setRemainingPathColor(contador);
       } else {
         this.handleAnswers();
         this.setState({
@@ -121,6 +123,9 @@ class Quiz extends Component {
   };
 
   componentDidMount = async () => {
+    if (!JSON.parse(localStorage.getItem('ranking'))) {
+      localStorage.getItem('ranking', JSON.stringify([]));
+    }
     const { getQuiz, tokenPlayer } = this.props;
     await getQuiz(tokenPlayer);
     this.getQuestionByIndex(questionIndex);

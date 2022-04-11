@@ -1,13 +1,23 @@
+.login-container {
+  height: 100vh;
+}
+
 .login-form {
   align-items: center;
-  background-color: rgb(179, 209, 255);
+  background-color: rgb(0, 255, 157);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  height: 200px;
-  margin: 30px auto;
+  justify-content: center;
+  margin: 25vh auto;
   padding: 24px;
   width: 300px;
+}
+
+.logo-image {
+  animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  margin: 0 auto 24px;
+  width: 200px;
 }
 
 .login-label {
@@ -24,18 +34,48 @@
   width: 100%;
 }
 
+fieldset {
+  border-style: none;
+  display: flex;
+}
+
 .btn-play, .btn-settings {
-  background-color: rgb(0, 255, 157);
+  background-color: purple;
   border-radius: 5px;
   border-style: none;
-  font-size: 1rem;
+  color: white;
+  font-size: 0.9rem;
   font-weight: 700;
   height: 40px;
-  margin-bottom: 4px;
+  margin: 20px 5px 0;
   padding: 5px;
-  width: 150px;
+  width: 108px;
 }
 
 button:hover {
+  background-color: darkblue;
   cursor: pointer;
+}
+
+button:disabled {
+  color: darkgray;
+}
+
+@keyframes shake {
+
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }

@@ -2,6 +2,7 @@
 export const GET_TOKEN_API = 'GET_TOKEN_API';
 export const RECEIVE_TOKEN_SUCCESS = 'RECEIVE_TOKEN_SUCCESS';
 export const RECEIVE_TOKEN_FAILURE = 'RECEIVE_TOKEN_FAILURE';
+export const CLEAR_TOKEN = 'CLEAR_TOKEN';
 
 // player types
 export const CREATE_PLAYER = 'CREATE_PLAYER';
