@@ -1,5 +1,8 @@
 import { fetchToken } from '../../services/triviaAPI';
-import { GET_TOKEN_API, RECEIVE_TOKEN_SUCCESS, RECEIVE_TOKEN_FAILURE } from '.';
+import { GET_TOKEN_API,
+  RECEIVE_TOKEN_SUCCESS,
+  RECEIVE_TOKEN_FAILURE,
+  CLEAR_TOKEN } from '.';
 
 const requestTokenAPI = () => ({ type: GET_TOKEN_API });
 
@@ -11,6 +14,10 @@ const receiveTokenSuccess = (token) => ({
 const receiveTokenFailure = (error) => ({
   type: RECEIVE_TOKEN_FAILURE,
   error,
+});
+
+export const clearToken = () => ({
+  type: CLEAR_TOKEN,
 });
 
 // export const tokenThunk = () => (
@@ -26,7 +33,7 @@ const receiveTokenFailure = (error) => ({
 //   }
 // );
 
-const tokenThunk = () => async (dispatch) => {
+export const tokenThunk = () => async (dispatch) => {
   try {
     dispatch(requestTokenAPI());
     const token = await fetchToken();
@@ -35,5 +42,3 @@ const tokenThunk = () => async (dispatch) => {
     dispatch(receiveTokenFailure(error));
   }
 };
-
-export default tokenThunk;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
+import { clearToken } from '../redux/actions/token';
 
 class Feedback extends Component {
   state = {
@@ -15,6 +16,8 @@ class Feedback extends Component {
   };
 
   handlePlayAgainBtn = () => {
+    const { clearTokenPlayer } = this.props;
+    clearTokenPlayer();
     this.setState({ playAgain: true });
   }
 
@@ -82,8 +85,12 @@ const mapStateToProps = (state) => ({
   playerScore: state.player.score,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  clearTokenPlayer: () => dispatch(clearToken()),
+});
+
 Feedback.propTypes = {
   playerAssertions: PropTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

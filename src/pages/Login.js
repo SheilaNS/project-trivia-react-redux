@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import '../assets/Login.css';
 import { createUserPlayer } from '../redux/actions/player';
-import tokenThunk from '../redux/actions/token';
+import { tokenThunk } from '../redux/actions/token';
 import fetchGravatar from '../services/gravatarAPI';
 import { fetchToken } from '../services/triviaAPI';
 

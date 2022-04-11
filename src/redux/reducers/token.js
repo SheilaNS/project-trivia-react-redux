@@ -1,4 +1,7 @@
-import { GET_TOKEN_API, RECEIVE_TOKEN_FAILURE, RECEIVE_TOKEN_SUCCESS } from '../actions';
+import { CLEAR_TOKEN,
+  GET_TOKEN_API,
+  RECEIVE_TOKEN_FAILURE,
+  RECEIVE_TOKEN_SUCCESS } from '../actions';
 
 const INITIAL_STATE = '';
 
@@ -10,6 +13,9 @@ const token = (state = INITIAL_STATE, action) => {
     return action.token;
   case RECEIVE_TOKEN_FAILURE:
     return action.error;
+  case CLEAR_TOKEN:
+    state = '';
+    return state;
   default:
     return state;
   }
