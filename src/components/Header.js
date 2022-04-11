@@ -10,7 +10,7 @@ class Header extends Component {
     const { gravatarURL, playerName, playerScore } = this.props;
     return (
       <header className="header-container">
-        <img className="logo-image" src={ logo } alt="trivia logo" />
+        <img className="header-logo-image" src={ logo } alt="trivia logo" />
         <div className="player-header-info">
           <img
             className="player-image"

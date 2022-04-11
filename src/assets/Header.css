@@ -1,13 +1,14 @@
 .header-container {
   align-items: center;
-  background-color: rgb(179, 209, 255);
+  background-color: rgb(0, 255, 157);
   display: flex;
   height: 150px;
   justify-content: space-between;
+  margin-bottom: 12px;
   padding: 12px;
 }
 
-.logo-image {
+.header-logo-image {
   height: 90px;
   margin-right: 12px;
   width: 200px;

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import { clearToken } from '../redux/actions/token';
+import '../assets/Feedback.css';
 
 class Feedback extends Component {
   state = {
@@ -45,22 +46,33 @@ class Feedback extends Component {
               </h2>
             </div>
           )}
-        <div>
-          <h3>Placar final</h3>
-          <p>
+        <div className="ranking-container">
+          <h3 className="ranking-title">Placar final</h3>
+          <p className="ranking-paragraph">
             Nome do Jogador:
-            <span>{playerName}</span>
+            <span className="ranking-span">{playerName}</span>
           </p>
-          <p>
+          <p className="ranking-paragraph">
             Perguntas corretas:
-            <span data-testid="feedback-total-question">{Number(playerAssertions)}</span>
+            <span
+              data-testid="feedback-total-question"
+              className="ranking-span"
+            >
+              {Number(playerAssertions)}
+            </span>
           </p>
-          <p>
+          <p className="ranking-paragraph">
             Pontuação final:
+            <span
+              data-testid="feedback-total-score"
+              className="ranking-span"
+            >
+              {Number(playerScore)}
+            </span>
           </p>
-          <p data-testid="feedback-total-score">{Number(playerScore)}</p>
         </div>
         <button
+          className="btn-play-again"
           type="button"
           data-testid="btn-play-again"
           onClick={ this.handlePlayAgainBtn }
@@ -68,6 +80,7 @@ class Feedback extends Component {
           Play again
         </button>
         <button
+          className="btn-ranking"
           type="button"
           data-testid="btn-ranking"
           onClick={ this.handleRakinBtn }

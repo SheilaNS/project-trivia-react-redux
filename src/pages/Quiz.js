@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { setCircleDasharray, setRemainingPathColor } from '../assets/TimerFunction';
 import Countdown from '../components/Countdown';
 import Header from '../components/Header';
 import Question from '../components/Question';
@@ -76,6 +77,8 @@ class Quiz extends Component {
         this.setState({
           contador: contador - 1,
         });
+        setCircleDasharray();
+        setRemainingPathColor(contador);
       } else {
         this.handleAnswers();
         this.setState({

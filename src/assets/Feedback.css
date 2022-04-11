@@ -1,0 +1,39 @@
+.feedback-text {
+  margin: 24px;
+}
+
+.ranking-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.ranking-title {
+  font-size: 1.3rem;
+}
+
+.ranking-paragraph {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 4px;
+}
+
+.ranking-span {
+  margin-left: 5px;
+}
+
+
+.btn-play-again, .btn-ranking {
+  background-color: purple;
+  border-radius: 6px;
+  border-style: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 5px;
+  padding: 10px;
+}
+
+.btn-play-again:hover, .btn-ranking:hover {
+  background-color: darkblue;
+  cursor: pointer;
+}

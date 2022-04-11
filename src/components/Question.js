@@ -33,10 +33,15 @@ class Question extends Component {
               <span>{turnQuestion.type}</span>
             </p>
           </div>
-          <div className="question-container">
+          <div className="question-quest-container">
             <p>
               Pergunta:
-              <span data-testid="question-text">{ turnQuestion.question }</span>
+              <span
+                className="question-span"
+                data-testid="question-text"
+              >
+                { turnQuestion.question }
+              </span>
             </p>
             <div className="answer-container" data-testid="answer-options">
               { answers.map((answer, index) => {
