@@ -1,3 +1,5 @@
-// [ { name(playerName), score(number) , picture(gravatarURL) } ]
+// ranking: [ { name(playerName), score(number) , picture(gravatarURL) } ]
+export const addLocalScore = (score) => localStorage
+  .setItem('ranking', JSON.parse(score));
 
-// const addLocalScore = (score) => localStorage.setItem(()
+export const getLocalScore = () => localStorage.getItem('ranking');

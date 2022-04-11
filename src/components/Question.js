@@ -36,7 +36,7 @@ class Question extends Component {
           <div className="question-container">
             <p>
               Pergunta:
-              <span data-testid="question-text">{turnQuestion.question}</span>
+              <span data-testid="question-text">{ turnQuestion.question }</span>
             </p>
             <div className="answer-container" data-testid="answer-options">
               { answers.map((answer, index) => {

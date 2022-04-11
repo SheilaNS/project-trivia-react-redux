@@ -1,14 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  state = {
+    playAgain: false,
+    ranking: false,
+  }
+
+  handleRakinBtn = () => {
+    this.setState({ ranking: true });
+  };
+
+  handlePlayAgainBtn = () => {
+    this.setState({ playAgain: true });
+  }
+
   render() {
     const { playerAssertions, playerName, playerScore } = this.props;
+    const { ranking, playAgain } = this.state;
     const assertNumber = 3;
+
     return (
       <>
+        {playAgain && <Redirect to="/" /> }
+        {ranking && <Redirect to="ranking" />}
         <Header />
         { playerAssertions >= assertNumber
           ? (
@@ -39,6 +57,20 @@ class Feedback extends Component {
           </p>
           <p data-testid="feedback-total-score">{Number(playerScore)}</p>
         </div>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handlePlayAgainBtn }
+        >
+          Play again
+        </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.handleRakinBtn }
+        >
+          Ranking
+        </button>
       </>
     );
   }

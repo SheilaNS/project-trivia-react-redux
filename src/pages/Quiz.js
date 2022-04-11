@@ -45,7 +45,6 @@ class Quiz extends Component {
       this.pageInterval();
     } else {
       this.setState({ feedback: true });
-      console.log('feedback');
     }
   }
 
@@ -121,6 +120,9 @@ class Quiz extends Component {
   };
 
   componentDidMount = async () => {
+    if (!JSON.parse(localStorage.getItem('ranking'))) {
+      localStorage.getItem('ranking', JSON.stringify([]));
+    }
     const { getQuiz, tokenPlayer } = this.props;
     await getQuiz(tokenPlayer);
     this.getQuestionByIndex(questionIndex);
