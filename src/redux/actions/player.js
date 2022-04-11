@@ -8,7 +8,8 @@ export const createUserPlayer = ({ name, assertions, score, email }) => ({
   email,
 });
 
-export const savePlayerScore = (score) => ({
+export const savePlayerScore = ({ score, assertions }) => ({
   type: SAVE_PLAYER_SCORE,
   points: score,
+  assertions,
 });

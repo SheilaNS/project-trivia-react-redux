@@ -18,7 +18,8 @@ const player = (state = INITIAL_STATE, action) => {
   case SAVE_PLAYER_SCORE:
     return {
       ...state,
-      score: action.points,
+      score: state.score + action.points,
+      assertions: state.assertions + action.assertions,
     };
   default:
     return state;

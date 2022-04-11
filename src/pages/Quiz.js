@@ -103,9 +103,11 @@ class Quiz extends Component {
     const { contador, turnQuestion } = this.state;
     const questionPoint = this.getDifficulty(turnQuestion);
     const ten = 10;
+    let assertions = 0;
     if (value === turnQuestion.correct_answer) {
       const score = ten + (contador * questionPoint);
-      saveScore(score);
+      assertions += 1;
+      saveScore({ score, assertions });
     }
   }
 
@@ -152,7 +154,6 @@ class Quiz extends Component {
                 <Countdown contador={ contador } />
                 <Question
                   turnQuestion={ turnQuestion }
-                  // question={ question }
                   answers={ turnAnswers }
                   handleClick={ this.handleClickAnswer }
                   nextQuestion={ this.handleNextButton }
